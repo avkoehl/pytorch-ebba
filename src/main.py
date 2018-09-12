@@ -1,4 +1,5 @@
 from include.feature_extractor import *
+from math import ceil
 
 def get_distances(fname, features):
     names = []
@@ -22,12 +23,14 @@ def main():
     model = VGGNet()
     ipath = "../images/"
     opath = "../features/"
+    size = 15 #number of images to process at a time
 
     images = [f for f in os.listdir(ipath) if ".jpg" in f]
-    chunks = [images[x:x+10] for x in range(0, len(images), 10)]
+    chunks = [images[x:x+size] for x in range(0, len(images), size)]
 
     # pass in path, list of filenames
     for i,chunk in enumerate(chunks):
+        print ("processing chunk: ", i, "out of ", ceil(len(images) / size))
         features = get_features(ipath, chunk, model)
         write_to_files(opath, features)
 

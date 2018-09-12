@@ -55,8 +55,6 @@ def get_features(image_path, image_list, model):
     images = image_list 
 
     for i,image in enumerate(images):
-        if i % 10 == 0:
-            print ("processing image ", i)
         img = load_image(image_path + image)
         f = model(img.unsqueeze(0))
         v = f[0]
@@ -71,24 +69,3 @@ def sort (fnames, dists):
     d = np.array(dists)
     inds = d.argsort()
     return f[inds], d[inds]
-
-def main():
-    model = VGGNet()
-    ipath = "./sample/"
-    features = get_features(ipath, model)
-
-    comp = "A-20707-30.jpg"
-    names = []
-    dists = []
-    for k,v in features.items():
-        names.append(k)
-        dists.append(spatial.distance.cosine(features[comp],v))
-
-    ofile = open("28.txt","w")
-    f,d = sort(names, dists)
-    for i,dist in enumerate(d):
-        print (f[i], round(1 - dist, 3))
-        print (round(1-dist, 3), file=ofile)
-
-if __name__=="__main__":
-    main()
