@@ -23,12 +23,13 @@ def main():
     ipath = "../images/"
     opath = "../features/"
 
-    # eventually probably want to chunk this up so not all the features are loaded into memory
-    # and write n binary files in numpy where n is the number of chunks
-    # something like 10 chunks, once 16000/10 features calculated, write to file then repeat
-    # the parallel jpbs are spawned at each repetion, don't handle the chunks in parallel
-    features = get_features(ipath, model)
-    write_to_files(opath, features)
+    images = [f for f in os.listdir(ipath) if ".jpg" in f]
+    chunks = [images[x:x+10] for x in range(0, len(images), 10)]
+
+    # pass in path, list of filenames
+    for i,chunk in enumerate(chunks):
+        features = get_features(ipath, chunk, model)
+        write_to_files(opath, features)
 
 if __name__=="__main__":
     main()

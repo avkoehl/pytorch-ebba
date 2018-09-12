@@ -50,10 +50,9 @@ def imshow(image):
     plt.imshow(image)
     plt.show()
 
-def get_features(image_path, model):
+def get_features(image_path, image_list, model):
     features = {} 
-    files = os.listdir(image_path)
-    images = [f for f in files if ".jpg" in f]
+    images = image_list 
 
     for i,image in enumerate(images):
         if i % 10 == 0:
