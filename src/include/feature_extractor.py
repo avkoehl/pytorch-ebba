@@ -50,7 +50,12 @@ def imshow(image):
     plt.imshow(image)
     plt.show()
 
-def get_features(image_path, image_list, model):
+def write_to_files(opath, features):
+    for k,v in features.items():
+        f = v.data
+        np.save(opath + k, f)
+
+def get_features_chunk(image_path, image_list, model):
     features = {} 
     images = image_list 
 
@@ -64,8 +69,12 @@ def get_features(image_path, image_list, model):
 
     return features
 
-def sort (fnames, dists):
-    f = np.array(fnames)
-    d = np.array(dists)
-    inds = d.argsort()
-    return f[inds], d[inds]
+def get_features(image_path, image, model):
+    img = load_image(image_path + image)
+    f = model(img.unsqueeze(0))
+    v = f[0]
+    _,c,h,w = v.size()
+    v = v.view(c*h*w)
+    features = np.array(v.data)
+    return (image, features)
+
