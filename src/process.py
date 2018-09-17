@@ -8,7 +8,7 @@ def main():
     ipath = "../images/"
     opath = "../features/"
     size = 10 #number of images to process at a time
-    num_cores = 2
+    num_cores = 4
 
     images = [f for f in os.listdir(ipath) if ".jpg" in f]
     chunks = [images[x:x+size] for x in range(0, len(images), size)]

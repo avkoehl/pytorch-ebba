@@ -12,15 +12,7 @@ def get_distance (base, fnames, features):
 
     return d
 
-def sort (fnames, dists):
-    f = np.array(fnames)
-    d = np.array(dists)
-    inds = d.argsort()
-    return f[inds], d[inds]
-
-def get_distances(filepath, seed, opath, size):
-    ofile = open(opath + seed, "w") 
-    files = os.listdir(filepath)
+def get_distances(filepath, files, seed, size):
     chunks = [files[x:x+size] for x in range(0, len(files), size)]
 
     features = []
@@ -38,7 +30,5 @@ def get_distances(filepath, seed, opath, size):
             features.append(vec)
 
     d = get_distance(base,fnames,features)
-    f,d = sort(fnames, d)
-    for i,dist in enumerate(d):
-        print (f[i], round(1-dist, 3), file=ofile)
+    return (seed,d)
 
