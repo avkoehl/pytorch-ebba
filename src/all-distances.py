@@ -23,14 +23,14 @@ def main():
     res = Parallel(n_jobs=num_cores)(delayed(get_distances)(filepath, files, b, size) for b in basenames)
 
     for r in res:
-        distances[r[0]] = r[1]
+        distances[r[0]] = zip(basenames,r[1])
 
     with open('distances.pickle', 'wb') as handle:
         pickle.dump(distances, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    ofile = open("columns.txt", "w")
-    columns = ",".join(basenames)
-    print (columns, file=ofile)
+    #ofile = open("columns.txt", "w")
+    #columns = ",".join(basenames)
+    #print (columns, file=ofile)
 
 if __name__=="__main__":
     main()
